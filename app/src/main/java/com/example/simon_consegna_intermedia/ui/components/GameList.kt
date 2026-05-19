@@ -3,6 +3,7 @@ package com.example.simon_consegna_intermedia.ui.components
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -57,6 +58,9 @@ fun GameList(modifier: Modifier,partite: ArrayList<String>){
 
 
             }
+
+            //necessario per rendere ben visibile l'ultimo elemento della lista
+            item { Spacer(modifier = Modifier.height(150.dp)) }
         }
 
     }
