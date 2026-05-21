@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simon_Consegna_Intermedia</string>
-    <string name="b1Text">Delete</string>
+    <string name="b1Text">Start Game</string>
     <string name="b2Text">End Game</string>
     <string name="title">Games</string>
+    <string name="b3Text">Pause</string>
+    <string name="b3Text2">Resume</string>
+
 </resources>

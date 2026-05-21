@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simon_Consegna_Intermedia</string>
-    <string name="b1Text">Cancella</string>
+    <string name="b1Text">Inizio Partita</string>
     <string name="b2Text">Fine partita</string>
     <string name="title">Partite</string>
+    <string name="b3Text">Pausa</string>
+    <string name="b3Text2">Riprendi</string>
+
 </resources>

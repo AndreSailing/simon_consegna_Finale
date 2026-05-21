@@ -10,8 +10,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.simon_consegna_intermedia.R
 
 
 class Screen(
@@ -20,22 +22,38 @@ class Screen(
 ) {
     @Composable
     operator fun invoke(){
+        val textB3=stringResource(R.string.b3Text)
+        val textB32=stringResource(R.string.b3Text2)
+        var textPause by rememberSaveable { mutableStateOf(textB3)}
+        var booleanPause by rememberSaveable { mutableStateOf(true)}
         val partite = rememberSaveable { mutableListOf<String>()           }
         var partita by rememberSaveable { mutableStateOf("") }
+        val pause: () -> Unit = {
+            if (booleanPause) {
+                booleanPause = false
+                textPause=textB32
+
+            } else {
+                booleanPause = true
+                textPause=textB3
+
+            }
+        }
+
         val configuration= LocalConfiguration.current
         when(configuration.orientation){
             Configuration.ORIENTATION_PORTRAIT->{
-                OrientationPortrait(partite,partita, partitaChange = { partita = it })
+                OrientationPortrait(partite,partita, partitaChange = { partita = it },pause,textPause)
             }
 
             Configuration.ORIENTATION_LANDSCAPE->{
-                OrientationLandscape(partite,partita, partitaChange = { partita = it })
+                OrientationLandscape(partite,partita, partitaChange = { partita = it },pause,textPause)
             }
-            else -> OrientationLandscape(partite,partita, partitaChange = { partita = it })
+            else -> OrientationLandscape(partite,partita, partitaChange = { partita = it },pause,textPause)
         }
     }
     @Composable
-    private fun OrientationPortrait( partite: MutableList<String>, partita: String,partitaChange: (String)-> Unit){
+    private fun OrientationPortrait( partite: MutableList<String>, partita: String,partitaChange: (String)-> Unit,pause:()->Unit,textPause: String){
 
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         ConstraintLayout(modifier = modifier.fillMaxWidth()) {
@@ -58,7 +76,7 @@ class Screen(
                 partite.add(partita.drop(1))
                 partitaChange("")
                 onClickNewActivity(ArrayList(partite))
-            }, modifier= Modifier.constrainAs(buttons){
+            },pause ,textPause, modifier= Modifier.constrainAs(buttons){
                 top.linkTo(textPartita.bottom)
             })()
 
@@ -66,7 +84,7 @@ class Screen(
 
     }
     @Composable
-    private fun OrientationLandscape(partite: MutableList<String>, partita: String,partitaChange: (String)-> Unit){
+    private fun OrientationLandscape(partite: MutableList<String>, partita: String,partitaChange: (String)-> Unit,pause:()-> Unit,textPause: String){
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         ConstraintLayout(modifier = modifier.fillMaxWidth()) {
             val (columnMatrix, column2)=createRefs()
@@ -91,7 +109,7 @@ class Screen(
                 partite.add(partita.drop(1))
                 partitaChange("")
                 onClickNewActivity(ArrayList(partite))
-            }, modifier= Modifier)()
+            },pause,textPause, modifier= Modifier)()
             }
 
         }
