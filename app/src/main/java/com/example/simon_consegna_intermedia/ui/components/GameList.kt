@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun GameList(modifier: Modifier,partite: ArrayList<String>){
+fun GameList(modifier: Modifier,partite: List<String>){
     ConstraintLayout(modifier = modifier.fillMaxWidth()){
         val (col1)=createRefs()
         LazyColumn(modifier= Modifier.constrainAs(col1){

@@ -18,7 +18,7 @@ import com.example.simon_consegna_intermedia.R
 
 class Screen(
     private val modifier: Modifier= Modifier,
-    private val onClickNewActivity:(ArrayList<String>)->Unit
+    private val onClickNewActivity:(String)->Unit
 ) {
     @Composable
     operator fun invoke(){
@@ -26,7 +26,8 @@ class Screen(
         val textB32=stringResource(R.string.b3Text2)
         var textPause by rememberSaveable { mutableStateOf(textB3)}
         var booleanPause by rememberSaveable { mutableStateOf(true)}
-        val partite = rememberSaveable { mutableListOf<String>()           }
+        val partite = rememberSaveable { mutableListOf<String>()}
+
         var partita by rememberSaveable { mutableStateOf("") }
         val pause: () -> Unit = {
             if (booleanPause) {
@@ -73,9 +74,9 @@ class Screen(
             })
 
             GameButton({partitaChange("")},{
-                partite.add(partita.drop(1))
+                val partitaDaIviare=partita.drop(1)
                 partitaChange("")
-                onClickNewActivity(ArrayList(partite))
+                onClickNewActivity(partitaDaIviare)
             },pause ,textPause, modifier= Modifier.constrainAs(buttons){
                 top.linkTo(textPartita.bottom)
             })()
@@ -106,9 +107,9 @@ class Screen(
             GameText(partita.drop(1),  Modifier)
 
             GameButton({partitaChange("")},{
-                partite.add(partita.drop(1))
+                val partitaDaIviare=partita.drop(1)
                 partitaChange("")
-                onClickNewActivity(ArrayList(partite))
+                onClickNewActivity(partitaDaIviare)
             },pause,textPause, modifier= Modifier)()
             }
 
