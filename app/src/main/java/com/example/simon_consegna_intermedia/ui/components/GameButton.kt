@@ -8,21 +8,30 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.simon_consegna_intermedia.R
+import com.example.simon_consegna_intermedia.ui.functions.GameViewModel
+
 class GameButton (
     private val onClick1: () -> Unit,
     private val onClick2: () -> Unit,
-    private val onClick3: () -> Unit,
-    private val textPause: String,
+    private val viewModel: GameViewModel,
     private val modifier: Modifier
 ){
 
 
     @Composable
     operator fun invoke() {
+            val textPause=stringResource(R.string.b3Text)
+            val textResume=stringResource(R.string.b3Text2)
+
 
             LazyColumn(modifier= modifier){
                     item {
@@ -40,11 +49,11 @@ class GameButton (
                         }
 
                         Button(
-                            onClick =onClick3,
+                            onClick ={viewModel.stateSwitch()},
                             modifier = Modifier.weight(1f)
                         ) {
 
-                            Text(textPause)
+                            Text(viewModel.getTextPause(textPause,textResume))
                         }
                     }
                     Row(

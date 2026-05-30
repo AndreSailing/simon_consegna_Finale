@@ -1,15 +1,20 @@
 package com.example.simon_consegna_intermedia.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.example.simon_consegna_intermedia.ui.functions.GameViewModel
 import com.example.simon_consegna_intermedia.ui.theme.colorMap
 
 class ColumnMatrix(
+    private val viewModel: GameViewModel,
     private val screenHeight: Dp,
     private val modifier: Modifier = Modifier.Companion,
     private val onClick: (String) -> Unit
@@ -18,6 +23,7 @@ class ColumnMatrix(
     @Composable
     operator fun invoke() {
         val colorNames = colorMap.keys.toList()
+
 
         ConstraintLayout(modifier = modifier.fillMaxWidth()) {
 
@@ -33,7 +39,7 @@ class ColumnMatrix(
                     end.linkTo(col2.start, margin = 16.dp)
                     top.linkTo(parent.top)
                     width = Dimension.Companion.fillToConstraints
-                },
+                },viewModel,
                 onClick = onClick
             )
 
@@ -47,7 +53,7 @@ class ColumnMatrix(
                     end.linkTo(parent.end, margin = 16.dp)
                     top.linkTo(parent.top)
                     width = Dimension.Companion.fillToConstraints
-                },
+                },viewModel,
                 onClick = onClick
             )
         }

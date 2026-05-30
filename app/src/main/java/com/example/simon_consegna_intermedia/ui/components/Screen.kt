@@ -14,47 +14,37 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.simon_consegna_intermedia.R
+import com.example.simon_consegna_intermedia.ui.functions.GameViewModel
 
 
 class Screen(
     private val modifier: Modifier= Modifier,
+    private val viewModel: GameViewModel,
     private val onClickNewActivity:(String)->Unit
+
 ) {
     @Composable
     operator fun invoke(){
-        val textB3=stringResource(R.string.b3Text)
-        val textB32=stringResource(R.string.b3Text2)
-        var textPause by rememberSaveable { mutableStateOf(textB3)}
-        var booleanPause by rememberSaveable { mutableStateOf(true)}
-        val partite = rememberSaveable { mutableListOf<String>()}
 
-        var partita by rememberSaveable { mutableStateOf("") }
-        val pause: () -> Unit = {
-            if (booleanPause) {
-                booleanPause = false
-                textPause=textB32
 
-            } else {
-                booleanPause = true
-                textPause=textB3
-
-            }
-        }
 
         val configuration= LocalConfiguration.current
         when(configuration.orientation){
             Configuration.ORIENTATION_PORTRAIT->{
-                OrientationPortrait(partite,partita, partitaChange = { partita = it },pause,textPause)
+                OrientationPortrait()
             }
 
             Configuration.ORIENTATION_LANDSCAPE->{
-                OrientationLandscape(partite,partita, partitaChange = { partita = it },pause,textPause)
+                OrientationLandscape()
             }
-            else -> OrientationLandscape(partite,partita, partitaChange = { partita = it },pause,textPause)
+            else -> OrientationLandscape()
         }
     }
+    fun checkButton(funzione:()-> Unit){
+        if (!(viewModel.gameEnded||viewModel.gamePaused)) funzione()
+    }
     @Composable
-    private fun OrientationPortrait( partite: MutableList<String>, partita: String,partitaChange: (String)-> Unit,pause:()->Unit,textPause: String){
+    private fun OrientationPortrait(){
 
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         ConstraintLayout(modifier = modifier.fillMaxWidth()) {
@@ -62,22 +52,24 @@ class Screen(
 
 
             ColumnMatrix(
+                viewModel,
                 screenHeight = screenHeight*0.8f,
                 modifier= Modifier.constrainAs(columnMatrix){
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                 },
-                onClick = { color -> partitaChange("$partita,$color") }
+                onClick = { color ->
+                    viewModel.inserisciColore(color)
+                    }
             )()
-            GameText(partita.drop(1),  Modifier.constrainAs(textPartita){
+            GameText(viewModel.partitaDaMostrare.drop(1),  Modifier.constrainAs(textPartita){
                 top.linkTo(columnMatrix.bottom)
             })
 
-            GameButton({partitaChange("")},{
-                val partitaDaIviare=partita.drop(1)
-                partitaChange("")
-                onClickNewActivity(partitaDaIviare)
-            },pause ,textPause, modifier= Modifier.constrainAs(buttons){
+            GameButton({viewModel.startGame() },{
+
+                onClickNewActivity(viewModel.getPartita())
+            },viewModel, modifier= Modifier.constrainAs(buttons){
                 top.linkTo(textPartita.bottom)
             })()
 
@@ -85,7 +77,7 @@ class Screen(
 
     }
     @Composable
-    private fun OrientationLandscape(partite: MutableList<String>, partita: String,partitaChange: (String)-> Unit,pause:()-> Unit,textPause: String){
+    private fun OrientationLandscape(){
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
         ConstraintLayout(modifier = modifier.fillMaxWidth()) {
             val (columnMatrix, column2)=createRefs()
@@ -95,22 +87,24 @@ class Screen(
                 start.linkTo(parent.start)
             }.fillMaxWidth(0.5f)) {
                 ColumnMatrix(
+                    viewModel,
                     screenHeight = screenHeight,
                     modifier= Modifier,
-                    onClick = { color -> partitaChange("$partita,$color") }
+                    onClick = { color ->
+                        viewModel.inserisciColore(color)
+                        }
                 )()
             }
             Column(Modifier.constrainAs(column2){
                 top.linkTo(parent.top)
                 start.linkTo(columnMatrix.end)
             }.fillMaxWidth(0.5f)) {
-            GameText(partita.drop(1),  Modifier)
+            GameText(viewModel.partitaDaMostrare.drop(1),  Modifier)
 
-            GameButton({partitaChange("")},{
-                val partitaDaIviare=partita.drop(1)
-                partitaChange("")
-                onClickNewActivity(partitaDaIviare)
-            },pause,textPause, modifier= Modifier)()
+            GameButton({viewModel.startGame()},{
+
+                onClickNewActivity(viewModel.getPartita())
+            },viewModel, modifier= Modifier)()
             }
 
         }
