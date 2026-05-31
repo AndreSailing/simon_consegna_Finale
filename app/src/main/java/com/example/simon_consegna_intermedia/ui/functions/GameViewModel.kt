@@ -1,6 +1,5 @@
 package com.example.simon_consegna_intermedia.ui.functions
 
-import android.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
