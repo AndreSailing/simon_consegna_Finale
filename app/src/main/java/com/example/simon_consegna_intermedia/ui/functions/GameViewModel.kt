@@ -9,6 +9,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
+    private var playSound:(String)-> Unit={}
+
     var errorPosition by mutableStateOf(0)
     var partitaDaMostrare by mutableStateOf("")
         private set
@@ -44,7 +46,7 @@ class GameViewModel : ViewModel() {
                 partitaDaMostrare=""
                 aggiungiStep()
             }
-
+            playSound("E")
             gamePaused = true
             gameEnded = true
         }
@@ -62,6 +64,8 @@ class GameViewModel : ViewModel() {
             while (gamePaused) delay(50)
 
             coloreAttivo = c
+            playSound(c)
+
             delay(600)
 
             while (gamePaused) delay(50)
@@ -97,6 +101,7 @@ class GameViewModel : ViewModel() {
 
         // illumina il colore premuto
         coloreAttivo = inputInseritoS
+        playSound(inputInseritoS)
         partitaDaMostrare+=","+inputInseritoS
         delay(200)
         coloreAttivo = null
@@ -127,5 +132,7 @@ class GameViewModel : ViewModel() {
         if (gameEnded) return errorPosition
         return sequenza.size
     }
-
+    fun setRiproduzioneSuono(f:(String)-> Unit){
+        playSound=f
+    }
 }
