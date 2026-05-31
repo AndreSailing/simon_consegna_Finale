@@ -6,5 +6,7 @@
     <string name="title">Games</string>
     <string name="b3Text">Pause</string>
     <string name="b3Text2">Resume</string>
+    <string name="Partita">Game</string>
+
 
 </resources>

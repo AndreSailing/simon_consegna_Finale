@@ -4,6 +4,7 @@
     <string name="b2Text">Fine partita</string>
     <string name="b3Text">Pausa</string>
     <string name="b3Text2">Riprendi</string>
+    <string name="Partita">Partita</string>
 
     <string name="title">Partite</string>
 </resources>

@@ -46,9 +46,10 @@ class GameViewModel : ViewModel() {
                 partitaDaMostrare=""
                 aggiungiStep()
             }
-            playSound("E")
             gamePaused = true
             gameEnded = true
+            delay(200)
+            playSound("E")
         }
     }
 
