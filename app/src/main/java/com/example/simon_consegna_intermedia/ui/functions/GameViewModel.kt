@@ -124,7 +124,7 @@ class GameViewModel : ViewModel() {
     private suspend fun checkStateToStart(){
         while (gameEnded||gamePaused) delay(50)
     }
-    fun getErrorPosition():Int{
+    fun getErrorIndex(): Int {
         if (gameEnded) return errorPosition
         return 0
     }

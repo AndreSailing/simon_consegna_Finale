@@ -62,7 +62,7 @@ class Screen(
                     viewModel.inserisciColore(color)
                     }
             )()
-            GameText(viewModel.partitaDaMostrare.drop(1),  Modifier.constrainAs(textPartita){
+            GameText(viewModel,  Modifier.constrainAs(textPartita){
                 top.linkTo(columnMatrix.bottom)
             })
 
@@ -99,7 +99,7 @@ class Screen(
                 top.linkTo(parent.top)
                 start.linkTo(columnMatrix.end)
             }.fillMaxWidth(0.5f)) {
-            GameText(viewModel.partitaDaMostrare.drop(1),  Modifier)
+            GameText(viewModel,  Modifier)
 
             GameButton({viewModel.startGame()},{
 
