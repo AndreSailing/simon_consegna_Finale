@@ -4,10 +4,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
-    var partite by mutableStateOf(listOf<String>())
+    var partite by mutableStateOf(listOf<PartitaObject>())
         private set
 
-    fun addPartita(p: String) {
+    fun addPartita(p: PartitaObject) {
         partite = partite + p
     }
 }

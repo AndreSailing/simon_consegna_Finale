@@ -1,5 +1,6 @@
 package com.example.simon_consegna_intermedia.ui.components
 
+import PartitaObject
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,14 +16,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 
 
 
 
 @Composable
-fun GameList(modifier: Modifier,partite: List<String>){
+fun GameList(modifier: Modifier,partite: List<PartitaObject>){
     ConstraintLayout(modifier = modifier.fillMaxWidth()){
         val (col1)=createRefs()
         LazyColumn(modifier= Modifier.constrainAs(col1){
@@ -33,7 +38,7 @@ fun GameList(modifier: Modifier,partite: List<String>){
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val quadratiPremuti = (partite[i].length + 1) / 2
+                    val quadratiPremuti = (partite[i].partita.length + 1) / 2
                     Text(
                         text = quadratiPremuti.toString(),
                         style = MaterialTheme.typography.titleLarge,
@@ -41,7 +46,21 @@ fun GameList(modifier: Modifier,partite: List<String>){
                     )
                     Spacer(Modifier.width(16.dp))
                     Text(
-                        text = partite[i],
+                        buildAnnotatedString {
+                            var j=0.0
+                            for (l in partite[i].partita){
+                                if (j<partite[i].indiceErrore){
+                                    withStyle(style = SpanStyle(color = Color.Green)) {
+                                        append(l)
+                                    }
+                                }else{
+                                    withStyle(style = SpanStyle(color = Color.Red)) {
+                                        append(l)
+                                    }
+                                }
+                                j+=0.5
+                            }
+                        },
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge,

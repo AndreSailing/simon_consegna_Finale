@@ -126,7 +126,7 @@ class GameViewModel : ViewModel() {
     }
     fun getErrorIndex(): Int {
         if (gameEnded) return errorPosition
-        return 0
+        return sequenza.size
     }
 
 }

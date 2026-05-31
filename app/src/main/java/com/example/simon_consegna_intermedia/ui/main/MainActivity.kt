@@ -1,5 +1,6 @@
 package com.example.simon_consegna_intermedia.ui.main
 
+import PartitaObject
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -32,6 +33,7 @@ import com.example.simon_consegna_intermedia.ui.components.GameList
 import com.example.simon_consegna_intermedia.ui.theme.Simon_Consegna_IntermediaTheme
 import com.example.simon_consegna_intermedia.R
 import com.example.simon_consegna_intermedia.ui.SecondActivity.GameActivity
+import com.example.simon_consegna_intermedia.ui.functions.PartiteDatabase
 
 
 class MainActivity : ComponentActivity() {
@@ -41,13 +43,23 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        val db = PartiteDatabase(this)
+        val storico = db.getAllPartite()
+        storico.forEach {
+            viewModel.addPartita(it)
+        }
         launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 val partita = result.data?.getStringExtra("partita")
-                if (partita != null) {
-                    viewModel.addPartita(partita)
+                val errorIndex=result.data?.getIntExtra("ErrorIndexPartita",-1)
+                if ((partita != null)&&(partita.length>1)&&(errorIndex!=null)&&(errorIndex>-1)) {
+                    viewModel.addPartita(PartitaObject(
+                        partita,
+                        errorIndex
+                    ))
+                    db.insertPartita(partita,errorIndex)
                 }
             }
         }
@@ -75,7 +87,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SecondScreen(modifier: Modifier,partite: List<String>){
+fun SecondScreen(modifier: Modifier,partite: List<PartitaObject>){
 
     ConstraintLayout(modifier=modifier.fillMaxWidth()
     ) {

@@ -32,6 +32,7 @@ class GameActivity : ComponentActivity() {
                     Screen(Modifier.Companion.padding(innerPadding),viewModel) { partita ->
                         val resultIntent = Intent()
                         resultIntent.putExtra("partita", partita)
+                        resultIntent.putExtra("ErrorIndexPartita",viewModel.getErrorIndex())
                         setResult(RESULT_OK, resultIntent)
                         finish()
                     }()
@@ -43,6 +44,8 @@ class GameActivity : ComponentActivity() {
     override fun finish() {
         val data = Intent().apply {
             putExtra("partita", viewModel.getPartita())
+            putExtra("ErrorIndexPartita",viewModel.getErrorIndex())
+
         }
         setResult(RESULT_OK, data)
         super.finish()
