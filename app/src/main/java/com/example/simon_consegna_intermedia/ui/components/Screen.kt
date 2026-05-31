@@ -40,9 +40,6 @@ class Screen(
             else -> OrientationLandscape()
         }
     }
-    fun checkButton(funzione:()-> Unit){
-        if (!(viewModel.gameEnded||viewModel.gamePaused)) funzione()
-    }
     @Composable
     private fun OrientationPortrait(){
 

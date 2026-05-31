@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.SecondActivity.GameActivity" />
+        <activity android:name=".ui.DettaglioPartitaActyvity.DettaglioPartitaActivity" />
 
     </application>
 

@@ -1,6 +1,7 @@
 package com.example.simon_consegna_intermedia.ui.components
 
 import PartitaObject
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +28,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun GameList(modifier: Modifier,partite: List<PartitaObject>){
+fun GameList(modifier: Modifier,partite: List<PartitaObject>,onClickText:(PartitaObject)-> Unit){
     ConstraintLayout(modifier = modifier.fillMaxWidth()){
         val (col1)=createRefs()
         LazyColumn(modifier= Modifier.constrainAs(col1){
@@ -64,7 +65,9 @@ fun GameList(modifier: Modifier,partite: List<PartitaObject>){
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f).clickable {
+                            onClickText(partite[i])
+                        }
                     )
 
 

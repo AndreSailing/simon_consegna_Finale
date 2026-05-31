@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.simon_consegna_intermedia.ui.components.GameList
 import com.example.simon_consegna_intermedia.ui.theme.Simon_Consegna_IntermediaTheme
 import com.example.simon_consegna_intermedia.R
+import com.example.simon_consegna_intermedia.ui.DettaglioPartitaActyvity.DettaglioPartitaActivity
 import com.example.simon_consegna_intermedia.ui.SecondActivity.GameActivity
 import com.example.simon_consegna_intermedia.ui.functions.PartiteDatabase
 
@@ -79,7 +80,12 @@ class MainActivity : ComponentActivity() {
                     SecondScreen(
                         Modifier.padding(innerPadding),
                         viewModel.partite
-                    )
+                    ) { partita ->
+                        val intent = Intent(this, DettaglioPartitaActivity::class.java);
+                        intent.putExtra("partita", partita.partita)
+                        intent.putExtra("errorIndex", partita.indiceErrore)
+                        startActivity(intent);
+                    }
                 }
             }
         }
@@ -87,7 +93,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SecondScreen(modifier: Modifier,partite: List<PartitaObject>){
+fun SecondScreen(modifier: Modifier,partite: List<PartitaObject>,newActivity:(PartitaObject)-> Unit){
 
     ConstraintLayout(modifier=modifier.fillMaxWidth()
     ) {
@@ -114,7 +120,7 @@ fun SecondScreen(modifier: Modifier,partite: List<PartitaObject>){
         GameList( Modifier.constrainAs(gameText){
             top.linkTo(spacer2.bottom)
             start.linkTo(parent.start)
-        },partite)
+        },partite,newActivity)
 
     }
 
