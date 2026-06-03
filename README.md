@@ -6,7 +6,7 @@ Riproduce una variante del gioco *Simon*, con gestione dello stato, layout adatt
 ---
 
 ## Versione Android utilizzata
-L’app è stata sviluppata utilizzando **Android API 16** come versione minima supportata.
+L’app è stata sviluppata utilizzando **Android 16** come versione minima supportata.
 
 ---
 
