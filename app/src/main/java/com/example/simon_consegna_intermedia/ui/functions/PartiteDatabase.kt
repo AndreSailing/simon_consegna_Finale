@@ -5,6 +5,18 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
+/**
+ * Gestisce la creazione e l'accesso al database SQLite contenente le partite giocate.
+ *
+ * Il database include una singola tabella:
+ *  - partite(id INTEGER PRIMARY KEY AUTOINCREMENT,
+ *            partita TEXT NOT NULL,
+ *            errore INTEGER NOT NULL)
+ *
+ * La classe fornisce metodi per inserire una partita e recuperare tutte le partite salvate.
+ *
+ * @constructor Crea un'istanza del database helper con nome "partite.db".
+ */
 class PartiteDatabase(context: Context) :
     SQLiteOpenHelper(context, "partite.db", null, 1) {
 
@@ -25,6 +37,15 @@ class PartiteDatabase(context: Context) :
         onCreate(db)
     }
 
+    /**
+     * Inserisce una nuova partita nel database.
+     *
+     * @param partita Stringa che rappresenta la sequenza giocata.
+     * @param errore Indice dell'errore commesso dal giocatore.
+     *
+     * Utilizza una prepared statement per evitare SQL injection
+     * e migliorare le prestazioni.
+     */
     fun insertPartita(partita: String, errore: Int) {
         val db = writableDatabase
         val stmt = db.compileStatement(
@@ -35,6 +56,15 @@ class PartiteDatabase(context: Context) :
         stmt.executeInsert()
     }
 
+    /**
+     * Recupera tutte le partite salvate nel database.
+     *
+     * @return Lista di oggetti PartitaObject contenenti:
+     *  - partita: sequenza giocata
+     *  - errore: indice dell'errore
+     *
+     * Il cursore viene chiuso automaticamente al termine della lettura.
+     */
     fun getAllPartite(): List<PartitaObject> {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT partita, errore FROM partite", null)
