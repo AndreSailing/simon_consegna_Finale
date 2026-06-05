@@ -2,7 +2,21 @@ import android.content.Context
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.sin
-
+/**
+ * Genera un file WAV contenente una sinusoide a frequenza fissa.
+ *
+ * @param context  Context Android, usato per accedere alla cartella interna dell'app.
+ * @param freqHz   Frequenza del tono da generare, in Hertz.
+ * @param durationMs Durata del suono in millisecondi.
+ * @param fileName Nome del file (senza estensione) da salvare nella memoria interna.
+ *
+ * @return File WAV generato e salvato in context.filesDir.
+ *
+ * Il file contiene:
+ * - campioni PCM 16-bit little-endian
+ * - frequenza di campionamento 44100 Hz
+ * - forma d'onda sinusoidale
+ */
 fun generateToneWavFile(
     context: Context,
     freqHz: Int,
@@ -40,7 +54,23 @@ fun generateToneWavFile(
 
     return file
 }
-
+/**
+ * Crea l'header WAV (formato RIFF) per un file PCM 16-bit mono.
+ *
+ * @param dataLength Lunghezza dei dati audio (solo parte PCM), in byte.
+ * @param sampleRate Frequenza di campionamento, in Hertz.
+ *
+ * @return Array di byte contenente l'header WAV completo (44 byte).
+ *
+ * L'header generato segue il formato:
+ * - ChunkID: "RIFF"
+ * - Format: "WAVE"
+ * - Subchunk1ID: "fmt "
+ * - AudioFormat: PCM (1)
+ * - NumChannels: 1 (mono)
+ * - BitsPerSample: 16
+ * - Subchunk2ID: "data"
+ */
 fun createWavHeader(dataLength: Int, sampleRate: Int): ByteArray {
     val totalDataLen = dataLength + 36
     val byteRate = sampleRate * 2
