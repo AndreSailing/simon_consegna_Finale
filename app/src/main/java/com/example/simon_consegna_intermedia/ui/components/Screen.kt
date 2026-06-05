@@ -17,12 +17,26 @@ import com.example.simon_consegna_intermedia.R
 import com.example.simon_consegna_intermedia.ui.functions.GameViewModel
 
 
+/**
+ * Classe che rappresenta la schermata principale del gioco.
+ * Gestisce automaticamente il layout in base all’orientamento del dispositivo
+ * (portrait o landscape) e delega la logica al GameViewModel.
+ *
+ * @property modifier Modificatore Compose applicabile alla root del layout.
+ * @property viewModel ViewModel che contiene lo stato della partita e la logica di gioco.
+ * @property onClickNewActivity Callback invocata quando l’utente avvia una nuova attività,
+ *                               passando la stringa della partita corrente.
+ */
 class Screen(
     private val modifier: Modifier= Modifier,
     private val viewModel: GameViewModel,
     private val onClickNewActivity:(String)->Unit
 
 ) {
+    /**
+     * Funzione composable principale.
+     * Decide quale layout mostrare in base all’orientamento del dispositivo.
+     */
     @Composable
     operator fun invoke(){
 
@@ -40,6 +54,9 @@ class Screen(
             else -> OrientationLandscape()
         }
     }
+    /**
+     * Layout orizzontale (landscape)
+     */
     @Composable
     private fun OrientationPortrait(){
 
@@ -73,6 +90,9 @@ class Screen(
         }
 
     }
+    /**
+     * Layout orizzontale (landscape)
+     */
     @Composable
     private fun OrientationLandscape(){
         val screenHeight = LocalConfiguration.current.screenHeightDp.dp
