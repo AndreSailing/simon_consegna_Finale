@@ -28,7 +28,20 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.simon_consegna_intermedia.R
 import kotlin.text.iterator
-
+/**
+ * Schermata di dettaglio di una singola partita.
+ * Mostra:
+ * - Il titolo "Partita"
+ * - La sequenza dei colori giocati, evidenziando in verde la parte corretta
+ *   e in rosso la parte successiva all'errore.
+ *
+ * La classe utilizza un oggetto [PartitaObject] che contiene:
+ * - La stringa della partita
+ * - L'indice dell'errore (mezzi passi → 0.5 per ogni colore)
+ *
+ * @property modifier Modificatore Compose applicabile alla root del layout.
+ * @property partita Oggetto contenente i dati della partita da visualizzare.
+ */
 class ScreenDettaglioPartita(
     private val modifier: Modifier= Modifier,
     private val partita: PartitaObject
